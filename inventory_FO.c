@@ -108,6 +108,12 @@ void loadInventoryFromFile(Inventory *inventory)
 
         if (newItem->itemID < 0)
         {
+            /*printf("Deleted Item ID %d: %s %s %s %s\n",
+                   newItem->itemID,
+                   newItem->name,
+                   newItem->brand,
+                   newItem->department,
+                   newItem->expiryDate);*/
             deletedItemCount++;
         }
 
@@ -145,8 +151,6 @@ void loadInventoryFromFile(Inventory *inventory)
     }
 }
 
-
-
 void saveInventoryToFile(Inventory *inventory)
 {
     fseek(inventoryFile, 0, SEEK_SET);
@@ -176,56 +180,89 @@ void addInventoryItem(Inventory *inventory, InventoryItem newItem)
     printf("Item added successfully.\n");
 }
 
-
-void updateInventoryItemField(Inventory *inventory, int itemID, int field, void *newValue, InventoryItem *item)
+void updateInventoryItemField(Inventory *inventory, int itemID, int field, void *newValue)
 {
     fseek(inventoryFile, 0, SEEK_SET);
     char buffer[RECORD_SIZE + 1];
-
     InventoryItem temp;
+    long currentPos = 0;
 
     while (fgets(buffer, RECORD_SIZE + 1, inventoryFile) != NULL)
     {
         deserializeRecord(buffer, &temp);
+
         if (temp.itemID == itemID)
         {
+            int fieldOffset = 0;
             switch (field)
             {
             case Name:
-                padOrTrimString(temp.name, (char *)newValue, MAX_NAME_LENGTH);
+                fieldOffset = 10;
                 break;
             case Brand:
-                padOrTrimString(temp.brand, (char *)newValue, MAX_BRAND_LENGTH);
+                fieldOffset = 10 + MAX_NAME_LENGTH;
                 break;
             case Department:
-                padOrTrimString(temp.department, (char *)newValue, MAX_DEPARTMENT_LENGTH);
+                fieldOffset = 10 + MAX_NAME_LENGTH + MAX_BRAND_LENGTH;
                 break;
             case ExpiryDate:
-                padOrTrimString(temp.expiryDate, (char *)newValue, MAX_EXPIRY_LENGTH);
+                fieldOffset = 10 + MAX_NAME_LENGTH + MAX_BRAND_LENGTH + MAX_DEPARTMENT_LENGTH;
                 break;
             case Price:
-                temp.price = *(float *)newValue;
+                fieldOffset = 10 + MAX_NAME_LENGTH + MAX_BRAND_LENGTH + MAX_DEPARTMENT_LENGTH + MAX_EXPIRY_LENGTH;
                 break;
             case Quantity:
-                temp.quantity = *(float *)newValue;
+                fieldOffset = 10 + MAX_NAME_LENGTH + MAX_BRAND_LENGTH + MAX_DEPARTMENT_LENGTH + MAX_EXPIRY_LENGTH + 10;
                 break;
-
-
             default:
                 printf("Invalid field.\n");
                 return;
             }
 
-            fseek(inventoryFile, -RECORD_SIZE, SEEK_CUR);
-            serializeRecord(item, buffer);
-            fprintf(inventoryFile, "%s", buffer);
+            // Move the file pointer to the starting position of the record
+            fseek(inventoryFile, currentPos, SEEK_SET); // Go back to the start of the current record
+            fseek(inventoryFile, fieldOffset, SEEK_CUR);  // Move to the specific field
+
+            // Write only the updated field
+            char fieldBuffer[50] = {0};
+            switch (field)
+            {
+            case Name:
+                padOrTrimString(fieldBuffer, (char *)newValue, MAX_NAME_LENGTH);
+                fprintf(inventoryFile, "%-*s", MAX_NAME_LENGTH, fieldBuffer);
+                break;
+            case Brand:
+                padOrTrimString(fieldBuffer, (char *)newValue, MAX_BRAND_LENGTH);
+                fprintf(inventoryFile, "%-*s", MAX_BRAND_LENGTH, fieldBuffer);
+                break;
+            case Department:
+                padOrTrimString(fieldBuffer, (char *)newValue, MAX_DEPARTMENT_LENGTH);
+                fprintf(inventoryFile, "%-*s", MAX_DEPARTMENT_LENGTH, fieldBuffer);
+                break;
+            case ExpiryDate:
+                padOrTrimString(fieldBuffer, (char *)newValue, MAX_EXPIRY_LENGTH);
+                fprintf(inventoryFile, "%-*s", MAX_EXPIRY_LENGTH, fieldBuffer);
+                break;
+            case Price:
+                fprintf(inventoryFile, "%-10.2f", *(float *)newValue);
+                break;
+            case Quantity:
+                fprintf(inventoryFile, "%-10.2f", *(float *)newValue);
+                break;
+            }
+
             fflush(inventoryFile);
-            printf("Record updated successfully.\n");
+            printf("Field updated successfully.\n");
             return;
         }
+
+        currentPos = ftell(inventoryFile);
     }
+
     printf("Item with ID %d not found.\n", itemID);
 }
+
+
 
 void deleteInventoryItem(Inventory *inventory, int itemID)
 {

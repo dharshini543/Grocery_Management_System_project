@@ -7,7 +7,7 @@ typedef struct InventoryItem
     char name[50];
     char brand[50];
     char department[30];
-    char expiryDate[15];
+    char expiryDate[30];
     float price;
     float quantity;
     struct InventoryItem *next;
@@ -28,7 +28,7 @@ int sortInventorybyDepartment(Inventory *inventory);
 int sortInventorybyPrice(Inventory *inventory);
 int sortInventorybyItemID(Inventory *inventory);
 int getInventoryItemByID(Inventory*inventory, int itemID);
-void displayDeletedItems(Inventory *inventory);
+void displayDeletedItems(Inventory*inventory);
 
 #endif // INVENTORY_H
 
