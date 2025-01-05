@@ -4,6 +4,8 @@
 #include"cart.h"
 #include"billing.h"
 #include"report.h"
+#include "inventory_FO.h"
+#include "enum.h"
 
 int calculateFinalBill(Cart *cart, Inventory *inventory, float * totalsales)
 {
@@ -70,6 +72,7 @@ void generateReceipt(Cart *cart,Inventory *inventory, float DiscountAmount, Repo
                 FinalAmount = FinalAmount + Item->price * current->quantity;
 
                 updateInventoryQuantity(temp, current);
+                updateInventoryItemField(inventory,temp->itemID,Quantity, &temp->quantity,Item);
             }
             current = current->next;
         }

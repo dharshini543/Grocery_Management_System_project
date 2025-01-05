@@ -108,12 +108,6 @@ void loadInventoryFromFile(Inventory *inventory)
 
         if (newItem->itemID < 0)
         {
-            /*printf("Deleted Item ID %d: %s %s %s %s\n",
-                   newItem->itemID,
-                   newItem->name,
-                   newItem->brand,
-                   newItem->department,
-                   newItem->expiryDate);*/
             deletedItemCount++;
         }
 
@@ -223,7 +217,6 @@ void updateInventoryItemField(Inventory *inventory, int itemID, int field, void 
             fseek(inventoryFile, currentPos, SEEK_SET); // Go back to the start of the current record
             fseek(inventoryFile, fieldOffset, SEEK_CUR);  // Move to the specific field
 
-            // Write only the updated field
             char fieldBuffer[50] = {0};
             switch (field)
             {
@@ -252,7 +245,7 @@ void updateInventoryItemField(Inventory *inventory, int itemID, int field, void 
             }
 
             fflush(inventoryFile);
-            printf("Field updated successfully.\n");
+            //printf("Field updated successfully.\n");
             return;
         }
 

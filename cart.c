@@ -132,7 +132,7 @@ int updateCartItemQuantity(Inventory*inventory, Cart *cart, int itemID, int quan
         temp = temp->next;
     }
     cart->totalAmount = ( temp->price * quantity );
-    printf("%.2f",cart->totalAmount);
+    printf("Amount = %.2f\n",cart->totalAmount);
 
     return Success;
 }

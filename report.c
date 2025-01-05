@@ -3,6 +3,7 @@
 #include"inventory.h"
 #include"cart.h"
 #include"report.h"
+#include "sales_report_FO.h"
 
 void addSalesReportItem(Cart *cart, Inventory *inventory, Report *report)
 {
@@ -48,6 +49,7 @@ void addSalesReportItem(Cart *cart, Inventory *inventory, Report *report)
                     temp1->next = newitem;
                     temp1 = newitem;
                 }
+
             }
             else
             {
@@ -57,6 +59,7 @@ void addSalesReportItem(Cart *cart, Inventory *inventory, Report *report)
                     temp2 = temp2->next;
                 }
                 temp2->quantity = temp2->quantity + current->quantity;
+
             }
         }
         current = current->next;
@@ -104,14 +107,16 @@ void generateSalesReport(Cart *cart, Inventory *inventory,const Report *report)
         InventoryItem *Item = temp;
         if(Item != NULL)
         {
-            printf("%d\t%d\t%s\t\t%.2f\t\t%.2f\t\t%.2f\n",++count, Item->itemID, Item->name, Item->price, temp1->quantity, Item->price * temp1->quantity);
-            Totalsales = Totalsales + (Item->price * temp1->quantity) ;
+            printf("%d\t%d\t%s\t\t%.2f\t\t%.2f\t\t%.2f\n",++count, Item->itemID,
+                   Item->name, Item->price, temp1->quantity, Item->price * temp1->quantity);
+            Totalsales = Totalsales + (Item->price * temp1->quantity);
+            updateSalesReportInFile(report, Item->itemID, temp1->quantity, Item->name, Item->price);
         }
         temp1 = temp1->next;
     }
-
     printf("---------------------------------------------------------------------\n");
     printf("\t\t\t\t\t\tTotal Sales = %.2f\n",Totalsales);
+
 }
 
 void generateInventoryReport(const Inventory *inventory)
@@ -123,9 +128,9 @@ void generateInventoryReport(const Inventory *inventory)
     }
     else
     {
-        printf("--------------------------Inventory Report---------------------------\n");
+        printf("--------------------------Inventory Report----------------------------------------\n");
         printf("ID\tName\t\tBrand\t\tPrice\t\tQuantity\tDepartment\tExpiryDate\n");
-        printf("---------------------------------------------------------------------\n");
+        printf("-----------------------------------------------------------------------------------\n");
         while(temp != 0)
         {
             printf("%d\t%s\t\t%s\t\t%.2f\t\t%.2f\t\t%s\t\t%s\n", temp->itemID, temp->name, temp->brand, temp->price, temp->quantity, temp->department, temp->expiryDate);

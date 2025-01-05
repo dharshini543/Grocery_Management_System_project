@@ -86,17 +86,25 @@ int deleteItemFromInventory(Inventory *inventory, int itemID)
     }
     else
     {
-        while(current->itemID != itemID)
+        while(current != 0 && current->itemID != itemID)
         {
             prev = current;
             current = current->next;
         }
+        if(current == 0)
+        {
+            printf("Item with ID %d not exists\n",itemID);
+            return Failure;
+        }
+        else
+        {
         prev->next = current->next;
         printf("%d\t%s\t\t%s\t\t%.2f\t\t%f\t\t%s\t\t%s\n", current->itemID, current->name, current->brand, current->price, current->quantity, current->department, current->expiryDate);
         free(current);
         inventory->itemCount--;
         deleteInventoryItem(inventory, itemID);
         return Success;
+        }
     }
 }
 
@@ -188,12 +196,12 @@ void displayInventorySummary(const Inventory *inventory)
     {
         InventoryItem* temp = inventory->head;
         printf("Inventory Summary:\n");
-        printf("ID\tName\t\tBrand\t\tDepartment\t\tExpiryDate\t\tPrice\t\tQuantity\n");
+        printf("ID\tName\t\tBrand\t\tDepartment\t\tExpiryDate\tPrice\tQuantity\n");
         while(temp != 0)
         {
             if(temp->itemID > 0 )
             {
-                printf("%d\t%s\t\t%s\t\t%s\t\t%s\t\t%.2f\t\t%.2f\n", temp->itemID, temp->name, temp->brand, temp->department, temp->expiryDate,temp->price, temp->quantity);
+                printf("%d\t%s\t\t%s\t\t%s\t\t\t%s\t%.2f\t%.2f\n", temp->itemID, temp->name, temp->brand, temp->department, temp->expiryDate,temp->price, temp->quantity);
 
             }
             temp = temp->next;
@@ -206,12 +214,15 @@ void displayDeletedItems(Inventory *inventory)
     int deletedItemCount = 0;
     InventoryItem *temp = inventory->head;
 
-    printf("Displaying deleted items:\n");
-    printf("ItemNo\tName\t\tBrand\t\tDepartment\t\tExpiryDate\n");
     while (temp != NULL)
     {
         if (temp->itemID < 0)
         {
+            if(deletedItemCount == 0)
+            {
+                printf("Displaying deleted items:\n");
+                printf("ItemNo\tName\t\tBrand\t\tDepartment\t\tExpiryDate\n");
+            }
             printf("%d\t%s\t\t%s\t\t%s\t\t%s\n",++deletedItemCount, temp->name,temp->brand,temp->department,temp->expiryDate);
         }
         temp = temp->next;
@@ -233,7 +244,7 @@ int getInventoryItemByID(Inventory*inventory,int itemID)
     if(!temp)
     {
         printf("No Item in inventory. Please add.\n");
-        return Failure;
+        return Failure ;
     }
     while(temp != 0 && temp->itemID != itemID)
     {

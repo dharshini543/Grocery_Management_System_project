@@ -5,6 +5,7 @@
 #include "billing.h"
 #include "report.h"
 #include"inventory_FO.h"
+#include "sales_report_FO.h"
 #include "enum.h"
 
 int start()
@@ -17,17 +18,29 @@ int start()
     float totalsales = 0;
     int isTrue = 1;
     int isOpened = 0;
+    int isLoaded = 0;
 
     isOpened = openFilesForReadingWriting();
     if(isOpened)
     {
-        printf("File is Open\n");
+        printf("Inventory File is Open\n");
     }
     else
     {
-        printf("Failed to open File\n");
+        printf("Failed to open Inventory File\n");
     }
+    isOpened = openSalesReportFile();
+    if(isOpened)
+    {
+        printf("Sales_Report File is Open\n");
+    }
+    else
+    {
+        printf("Failed to open Sales_Report File\n");
+    }
+
     loadInventoryFromFile(&inventory);
+    loadSalesReportFromFile(&report);
 
     initializeUser(&user,"Dharshini","1234");
     printf("Enter 1.Login Credentials\n");
@@ -279,6 +292,7 @@ int start()
 
         case LOGOUT:
             closeFile();
+            closeSalesReportFile();
             printf("Exiting program...\n");
             isTrue = 0;
             break;

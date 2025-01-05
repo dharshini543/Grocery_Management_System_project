@@ -20,6 +20,8 @@ add_executable(GMS main.c
     start.c
     user.h
     user.c
+    sales_report_FO.h
+    sales_report_FO.c
 
 
 
