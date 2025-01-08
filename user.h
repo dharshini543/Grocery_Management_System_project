@@ -1,4 +1,4 @@
-#ifndef USER_H
+/*#ifndef USER_H
 #define USER_H
 
 #define MAX_USERNAME_LENGTH 30
@@ -24,4 +24,31 @@ int loginUser(User *user, const char *username, const char *password);
 void logoutUser(User *user);
 void displayLoginScreen(User *user);
 
-#endif // USER_H
+#endif // USER_H*/
+#ifndef USER_H
+#define USER_H
+
+// User roles
+typedef enum {
+    ROLE_ADMIN,
+    ROLE_USER
+} UserRole;
+
+// User structure
+typedef struct {
+    char name[50];
+    char password[20];
+    UserRole role;
+    int isLoggedIn;
+} User;
+
+void loadUsersFromFile();
+void saveUsersToFile();
+int addUser(const char *username, const char *password, int role);
+int deleteUser(const char *username);
+void initializeUser(User *user, const char *name, const char *password, UserRole role);
+void login(User *user);
+
+#endif
+
+

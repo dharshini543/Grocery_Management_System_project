@@ -1,6 +1,21 @@
 #ifndef ENUM_H
 #define ENUM_H
 
+typedef enum {
+    ADMIN_MENU_ADD_USER = 1,
+    ADMIN_MENU_DELETE_USER,
+    ADMIN_MENU_MANAGE_INVENTORY,
+    ADMIN_MENU_VIEW_REPORTS,
+    ADMIN_MENU_LOGOUT
+} AdminMenuChoice;
+
+typedef enum {
+    USER_MENU_INVENTORY = 1,
+    USER_MENU_CART,
+    USER_MENU_BILLING,
+    USER_MENU_LOGOUT
+} UserMenuChoice;
+
 enum MainMenuOptions
 {
     INVENTORY_MANAGEMENT = 1,
