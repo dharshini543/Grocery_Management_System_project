@@ -33,6 +33,7 @@ void closeSalesReportFile()
 void serializeSalesRecord(const ReportItem *reportItem, const char *name, float price, char *buffer)
 {
     float amount = price * reportItem->quantity;
+
     snprintf(buffer, RECORD_SIZE + 1,
              "%-10d%-50s%-10.2f%-10.2f%-10.2f\n",
              reportItem->itemID, name, price, reportItem->quantity, amount);
@@ -41,6 +42,7 @@ void serializeSalesRecord(const ReportItem *reportItem, const char *name, float 
 void deserializeSalesRecord(const char *buffer, int *itemID, char *name, float *price, float *quantity)
 {
     float totalValue = 0;
+
     int itemsParsed = sscanf(buffer, "%d %49s %f %f %f", itemID, name, price, quantity, &totalValue);
 }
 
@@ -56,7 +58,8 @@ void loadSalesReportFromFile(Report *report)
     char buffer[RECORD_SIZE + 1];
     report->head = NULL;
 
-    while (fgets(buffer, RECORD_SIZE + 1, salesReportFile) != NULL) {
+    while (fgets(buffer, RECORD_SIZE + 1, salesReportFile) != NULL)
+    {
         int itemID = 0;
         char name[MAX_NAME_LENGTH + 1] = {0};
         float price = 0, quantity = 0;
@@ -136,7 +139,7 @@ void updateSalesReportInFile(Report *report, int itemID, float quantity, const c
         fprintf(salesReportFile, "%-10d%-50s%-10.2f%-10.2f%-10.2f\n", newItem.itemID, name, price, newItem.quantity, newItem.quantity * price);
         fflush(salesReportFile);
 
-        printf("New sales record added for Item ID %d.\n", itemID);
+        //printf("New sales record added for Item ID %d.\n", itemID);
     }
 }
 

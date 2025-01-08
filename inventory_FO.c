@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include "inventory.h"
 #include "enum.h"
 
@@ -162,7 +163,7 @@ void saveInventoryToFile(Inventory *inventory)
 }
 
 
-void addInventoryItem(Inventory *inventory, InventoryItem newItem)
+void addInventoryItemToFile(Inventory *inventory, InventoryItem newItem)
 {
     fseek(inventoryFile, 0, SEEK_END);
 
@@ -245,7 +246,7 @@ void updateInventoryItemField(Inventory *inventory, int itemID, int field, void 
             }
 
             fflush(inventoryFile);
-            //printf("Field updated successfully.\n");
+            printf("Field updated successfully.\n");
             return;
         }
 
@@ -254,7 +255,6 @@ void updateInventoryItemField(Inventory *inventory, int itemID, int field, void 
 
     printf("Item with ID %d not found.\n", itemID);
 }
-
 
 
 void deleteInventoryItem(Inventory *inventory, int itemID)
@@ -269,13 +269,23 @@ void deleteInventoryItem(Inventory *inventory, int itemID)
         if (temp.itemID == itemID)
         {
             temp.itemID = -1;
-            fseek(inventoryFile, -RECORD_SIZE, SEEK_CUR);
-            serializeRecord(&temp, buffer);
-            fprintf(inventoryFile, "%s", buffer);
+
+
+            long itemIDOffset = ftell(inventoryFile) - RECORD_SIZE + 0;
+
+
+            fseek(inventoryFile, itemIDOffset, SEEK_SET);
+
+
+            fprintf(inventoryFile, "%d", temp.itemID);
             fflush(inventoryFile);
+
             printf("Record marked as deleted.\n");
             return;
         }
     }
     printf("Item with ID %d not found.\n", itemID);
 }
+
+
+

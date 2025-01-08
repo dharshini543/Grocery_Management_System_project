@@ -9,6 +9,7 @@ void initializeUser(User *user, const char *username, const char *password)
     user->isLoggedIn = 0;
 }
 
+
 int loginUser(User *user, const char *username, const char *password)
 {
     if (strcmp(user->username, username) == 0 && strcmp(user->password, password) == 0)

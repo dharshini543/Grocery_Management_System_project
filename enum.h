@@ -12,6 +12,7 @@ enum MainMenuOptions
 
 };
 
+
 enum InventoryMenuOptions
 {
     Inventory_AddItem = 1,
@@ -21,6 +22,7 @@ enum InventoryMenuOptions
     Inventory_SortByName,
     Inventory_SortByDepartment,
     Inventory_SortByPrice,
+    Inventory_SortByItemID,
     Inventory_GetItemByID,
     Inventory_DisplayDeletedItems
 } ;

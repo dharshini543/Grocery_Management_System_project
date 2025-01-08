@@ -2,17 +2,12 @@
 #define SALES_REPORT_FO_H
 
 #include "report.h"
+
 int openSalesReportFile();
 void closeSalesReportFile();
-void serializeSalesReportRecord(const ReportItem *item, char *buffer);
-void deserializeSalesReportRecord(const char *buffer, ReportItem *item);
-//void updateSalesReportInFile(Report *report, int itemID, float additionalQuantity);
-void updateSalesReportInFile(Report *report, int itemID, float additionalQuantity, const char *name, float price);
+void serializeSalesRecord(const ReportItem *reportItem, const char *name, float price, char *buffer);
+void deserializeSalesRecord(const char *buffer, int *itemID, char *name, float *price, float *quantity);
 void loadSalesReportFromFile(Report *report);
-//void printReport(Report *report);
-void generateAndUpdateSalesReport(Cart *cart, Inventory *inventory, Report *report);
-InventoryItem *getInventoryItemByIDinFile(Inventory *inventory,int itemID);
-void saveSalesReportToFile(const Report *report,Inventory *inventory);
-//void updateSalesReportInFile(Report *report);
-InventoryItem* findInventoryItem(Inventory *inventory, int itemID);
+void updateSalesReportInFile(Report *report, int itemID, float quantity, const char *name, float price);
+
 #endif // SALES_REPORT_FO_H

@@ -18,7 +18,6 @@ int start()
     float totalsales = 0;
     int isTrue = 1;
     int isOpened = 0;
-    int isLoaded = 0;
 
     isOpened = openFilesForReadingWriting();
     if(isOpened)
@@ -29,6 +28,7 @@ int start()
     {
         printf("Failed to open Inventory File\n");
     }
+
     isOpened = openSalesReportFile();
     if(isOpened)
     {
@@ -49,21 +49,32 @@ int start()
         displayLoginScreen(&user);
     }
 
+
     while(isTrue)
     {
-        printf("Enter\n1.Inventory Management\n2.Cart Management\n3.Billing\n4.Report\n5.Save to File\n6.Exit\n");
-        scanf("%d", &choice);
+        if(user.isAdmin == 1)
+        {
+            printf("Enter\n1.Add User\n2.Inventory Management\n3.Cart Management\n4.Billing\n5.Report\n6.Save to File\n7.Exit\n");
+            scanf("%d",&choice);
+        }
+        else
+        {
+            printf("Enter\n1.Inventory Management\n2.Cart Management\n3.Billing\n4.Report\n5.Save to File\n6.Exit\n");
+            scanf("%d", &choice);
+        }
+        int ID = 0;
+        float quantity = 0;
+        int success = 0;
 
         switch(choice)
         {
+
         case INVENTORY_MANAGEMENT:
-            printf("\nEnter\n1.Add Item to Inventory\n2.Delete Item from Inventory\n3.Update Inventory Item Details\n4.Display Inventory summary\n5.Sort Inventory By Name\n6.Sort Inventory By Department\n7.Sort Inventory By Price\n8.Get list by ID\n9.Display Deleted Items\n");
+            printf("Enter\n1.Add Item to Inventory\n2.Delete Item from Inventory\n3.Update Inventory Item Details\n4.Display Inventory summary\n5.Sort Inventory By Name\n6.Sort Inventory By Department\n7.Sort Inventory By Price8.Sort Inventory By ID\n9.Get list by ID\n10.Display Deleted Items\n");
             scanf("%d", &option);
 
             switch(option)
             {
-                int ID = 0;
-                int success = 0;
 
             case Inventory_AddItem:
                 success = addItemToInventory(&inventory);
@@ -73,7 +84,7 @@ int start()
                 }
                 else
                 {
-                    printf("Failed to add Item to the Inventory");
+                    printf("Failed to add Item to the Inventory\n");
                 }
                 break;
 
@@ -87,7 +98,7 @@ int start()
                 }
                 else
                 {
-                    printf("Failed to delete Item from the Inventory");
+                    printf("Failed to delete Item from the Inventory\n");
                 }
                 break;
 
@@ -101,7 +112,7 @@ int start()
                 }
                 else
                 {
-                    printf("Failed to update Item to the Inventory");
+                    printf("Failed to update Item to the Inventory\n");
                 }
                 break;
 
@@ -145,6 +156,17 @@ int start()
                 }
                 break;
 
+            case Inventory_SortByItemID:
+                success = sortInventorybyItemID(&inventory);
+                if(success)
+                {
+                    printf("Inventory sorted by item Price.\n");
+                }
+                else
+                {
+                    printf("Failed to sort inventory by Price.\n");
+                }
+                break;
             case Inventory_GetItemByID:
 
                 printf("Enter ID of an item\n");
@@ -168,15 +190,12 @@ int start()
             }
             break;
 
-         case  CART_MANAGEMENT:
-            printf("Enter\n1.Add Item to Cart\n2.Delete Item from Cart\n3.Update Cart item quantity\n4.Display Cart Summary\n\n");
+        case  CART_MANAGEMENT:
+            printf("Enter\n1.Add Item to Cart\n2.Delete Item from Cart\n3.Update Cart item quantity\n4.Display Cart Summary\n");
             scanf("%d", &option);
 
             switch(option)
             {
-                int ID;
-                float quantity = 0;
-                int success = 0;
 
             case Cart_AddItem:
                 printf("Enter ID of Inventory Item to add\n");
@@ -190,7 +209,7 @@ int start()
                 }
                 else
                 {
-                    printf("Failed to add Item to the cart");
+                    printf("Failed to add Item to the cart\n");
                 }
                 break;
 
@@ -204,7 +223,7 @@ int start()
                 }
                 else
                 {
-                    printf("Failed to delete Item from the cart");
+                    printf("Failed to delete Item from the cart\n");
                 }
                 break;
 
@@ -220,7 +239,7 @@ int start()
                 }
                 else
                 {
-                    printf("Failed to update Item to the cart");
+                    printf("Failed to update Item to the cart\n");
                 }
                 break;
 
@@ -245,7 +264,7 @@ int start()
 
                 switch(option)
                 {
-                 float DiscountAmount = 0;
+                    float DiscountAmount = 0;
 
                 case Calculate_FinalBill:
                     DiscountAmount = calculateFinalBill(&cart, &inventory, &totalsales);
@@ -294,6 +313,7 @@ int start()
             closeFile();
             closeSalesReportFile();
             printf("Exiting program...\n");
+            logoutUser(&user);
             isTrue = 0;
             break;
 
