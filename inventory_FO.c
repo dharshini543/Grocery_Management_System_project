@@ -4,6 +4,7 @@
 #include <time.h>
 #include "inventory.h"
 #include "enum.h"
+#include "sorting.h"
 
 #define MAX_NAME_LENGTH 50
 #define MAX_BRAND_LENGTH 50
@@ -129,6 +130,7 @@ void loadInventoryFromFile(Inventory *inventory)
         }
 
         inventory->itemCount++;
+        inventory->head = mergeSort(inventory->head, Sort_By_Name);
     }
 
     if (inventory->itemCount > 0)

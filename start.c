@@ -49,19 +49,10 @@ int start()
         displayLoginScreen(&user);
     }
 
-
     while(isTrue)
     {
-        if(user.isAdmin == 1)
-        {
-            printf("Enter\n1.Add User\n2.Inventory Management\n3.Cart Management\n4.Billing\n5.Report\n6.Save to File\n7.Exit\n");
-            scanf("%d",&choice);
-        }
-        else
-        {
-            printf("Enter\n1.Inventory Management\n2.Cart Management\n3.Billing\n4.Report\n5.Save to File\n6.Exit\n");
-            scanf("%d", &choice);
-        }
+        printf("Enter\n1.Inventory Management\n2.Cart Management\n3.Billing\n4.Report\n5.Save to File\n6.Exit\n");
+        scanf("%d", &choice);
         int ID = 0;
         float quantity = 0;
         int success = 0;
@@ -70,7 +61,7 @@ int start()
         {
 
         case INVENTORY_MANAGEMENT:
-            printf("Enter\n1.Add Item to Inventory\n2.Delete Item from Inventory\n3.Update Inventory Item Details\n4.Display Inventory summary\n5.Sort Inventory By Name\n6.Sort Inventory By Department\n7.Sort Inventory By Price\n8.Sort Inventory By ID\n9.Get list by ID\n10.Display Deleted Items\n");
+            printf("Enter\n1.Add Item to Inventory\n2.Delete Item from Inventory\n3.Update Inventory Item Details\n4.Display Inventory summary\n5.Sort Inventory By Name\n6.Sort Inventory By Department\n7.Sort Inventory By Price8.Sort Inventory By ID\n9.Get list by ID\n10.Display Deleted Items\n");
             scanf("%d", &option);
 
             switch(option)
@@ -323,3 +314,6 @@ int start()
     }
     return 0;
 }
+
+
+
