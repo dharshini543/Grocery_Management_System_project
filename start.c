@@ -1,4 +1,4 @@
-/*#include <stdio.h>
+#include <stdio.h>
 #include "user.h"
 #include "inventory.h"
 #include "cart.h"
@@ -42,17 +42,46 @@ int start()
     loadInventoryFromFile(&inventory);
     loadSalesReportFromFile(&report);
 
-    initializeUser(&user,"Dharshini","1234");
+    /*initializeUser(&user,"Dharshini","1234");
     printf("Enter 1.Login Credentials\n");
     while(!user.isLoggedIn)
     {
         displayLoginScreen(&user);
+    }*/
+    Userlist userList  = {0} ;
+    loadUsersFromFile(&userList);
+
+
+    if (userList.head == NULL) {
+        printf("No users found. Please add the first admin user.\n");
+        userList.head = createUser(&userList, 1);  // First user should be admin (1 = admin)
+        saveUsersToFile(&userList);
+    }
+
+    int loggedIn = 0;
+
+    while (!loggedIn) {
+        login(&userList);
+
+        if (currentUser != NULL) {
+            loggedIn = 1;
+        }
+
     }
 
     while(isTrue)
     {
-        printf("Enter\n1.Inventory Management\n2.Cart Management\n3.Billing\n4.Report\n5.Save to File\n6.Exit\n");
+        if(isAdminLoggedIn())
+        {
+        printf("Enter\n1.Inventory Management\n2.Cart Management\n3.Billing\n4.Report\n5.Save to File\n6.Add User\n7.Make user as admin\n8.Logout\n");
         scanf("%d", &choice);
+        }
+        else
+        {
+            printf("1.View Inventory\n2.Cart Management\n3.Billing\n");
+            scanf("%d",&choice);
+        }
+
         int ID = 0;
         float quantity = 0;
         int success = 0;
@@ -61,6 +90,8 @@ int start()
         {
 
         case INVENTORY_MANAGEMENT:
+            if(isAdminLoggedIn())
+            {
             printf("Enter\n1.Add Item to Inventory\n2.Delete Item from Inventory\n3.Update Inventory Item Details\n4.Display Inventory summary\n5.Sort Inventory By Name\n6.Sort Inventory By Department\n7.Sort Inventory By Price8.Sort Inventory By ID\n9.Get list by ID\n10.Display Deleted Items\n");
             scanf("%d", &option);
 
@@ -179,6 +210,7 @@ int start()
             default:
                 printf("Enter valid option\n");
             }
+            }
             break;
 
         case  CART_MANAGEMENT:
@@ -273,6 +305,8 @@ int start()
             break;
 
         case REPORT:
+            if(isAdminLoggedIn())
+            {
             printf("Enter\n1.Generate Sales Report\n2.Generate Inventory Report\n3.View Low Stock alerts\n");
             scanf("%d", &option);
 
@@ -294,16 +328,39 @@ int start()
             default:
                 printf("Enter valid option\n");
             }
+            }
+            else
+            {
+                printf("No Access for User\n");
+                return 1 ;
+            }
             break;
 
         case SAVE_TO_FILE:
             saveInventoryToFile(&inventory);
             break;
-
+        case ADD_USER:
+            if(isAdminLoggedIn())
+            {
+            createUser(&userList, user.isAdmin);
+            break;
+            }
+        case MAKE_USER_ADMIN:
+            if(isAdminLoggedIn())
+            {
+            setAdmin(&userList);
+            }
+            else
+            {
+                printf("No Access for User\n");
+                return 1;
+            }
+            break;
         case LOGOUT:
             closeFile();
             closeSalesReportFile();
-            closeUserFile();
+            saveUsersToFile(&userList) ;
+            //closeUserFile();
             printf("Exiting program...\n");
             //logoutUser(&user);
             isTrue = 0;
@@ -314,8 +371,8 @@ int start()
         }
     }
     return 0;
-}*/
-#include <stdio.h>
+}
+/*#include <stdio.h>
 #include "user.h"
 #include "inventory.h"
 #include "inventory_FO.h"
@@ -686,6 +743,6 @@ int start()
 
     printf("Goodbye!\n");
     return 0;
-}
+}*/
 
 

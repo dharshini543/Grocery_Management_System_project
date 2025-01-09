@@ -23,6 +23,8 @@ enum MainMenuOptions
     BILLING,
     REPORT,
     SAVE_TO_FILE,
+    ADD_USER,
+    MAKE_USER_ADMIN,
     LOGOUT
 
 };
