@@ -120,10 +120,6 @@ void saveUsersToFile()
     fclose(file);
 }
 
-
-
-
-
 int addUser(const char *username, const char *password, int role)
 {
     if (userCount >= MAX_USERS)

@@ -316,7 +316,6 @@ int start()
     return 0;
 }*/
 #include <stdio.h>
-#include <string.h>
 #include "user.h"
 #include "inventory.h"
 #include "inventory_FO.h"
