@@ -3,7 +3,7 @@
 
 #include "report.h"
 
-int openSalesReportFile();
+int  openSalesReportFile();
 void closeSalesReportFile();
 void serializeSalesRecord(const ReportItem *reportItem, const char *name, float price, char *buffer);
 void deserializeSalesRecord(const char *buffer, int *itemID, char *name, float *price, float *quantity);

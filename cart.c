@@ -98,8 +98,8 @@ int removeItemFromCart(Inventory *inventory, Cart *cart, int itemID)
         }
         else
         {
-        prev->next = current->next;
-        printf("%d\t%.2f\n", current->itemID, current->quantity);
+            prev->next = current->next;
+            printf("%d\t%.2f\n", current->itemID, current->quantity);
         }
 
         while(temp->itemID != itemID)

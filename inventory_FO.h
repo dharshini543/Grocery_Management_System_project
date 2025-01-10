@@ -3,7 +3,7 @@
 
 #include "inventory.h"
 
-int openFilesForReadingWriting();
+int  openInventoryFile();
 void closeFile();
 void loadInventoryFromFile(Inventory *inventory);
 void saveInventoryToFile(Inventory *inventory);

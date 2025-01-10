@@ -12,7 +12,6 @@ enum MainMenuOptions
 
 };
 
-
 enum InventoryMenuOptions
 {
     Inventory_AddItem = 1,

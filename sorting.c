@@ -83,7 +83,7 @@ InventoryItem *mergeSort(InventoryItem *head, int criterion)
 int sortInventorybyName(Inventory *inventory)
 {
     if (inventory->head == NULL)
-    return Failure;
+        return Failure;
     inventory->head = mergeSort(inventory->head, Sort_By_Name);
     displayInventorySummary(inventory);
     return Success;

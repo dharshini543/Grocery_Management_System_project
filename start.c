@@ -19,7 +19,7 @@ int start()
     int isTrue = 1;
     int isOpened = 0;
 
-    isOpened = openFilesForReadingWriting();
+    isOpened = openInventoryFile();
     if(isOpened)
     {
         printf("Inventory File is Open\n");
