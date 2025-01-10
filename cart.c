@@ -86,13 +86,21 @@ int removeItemFromCart(Inventory *inventory, Cart *cart, int itemID)
     }
     else
     {
-        while(current->itemID != itemID)
+        while(current != NULL && current->itemID != itemID)
         {
             prev = current;
             current = current->next;
         }
-        prev->next = current->next;
-        printf("%d\t%.2f\n", current->itemID, current->quantity);
+        if(current == NULL)
+        {
+            printf("Item ID not found in Cart to delete\n");
+            return Failure;
+        }
+        else
+        {
+            prev->next = current->next;
+            printf("%d\t%.2f\n", current->itemID, current->quantity);
+        }
 
         while(temp->itemID != itemID)
         {
@@ -105,7 +113,7 @@ int removeItemFromCart(Inventory *inventory, Cart *cart, int itemID)
     }
 }
 
-int updateCartItemQuantity(Inventory*inventory, Cart *cart, int itemID, int quantity)
+int updateCartItemQuantity(Inventory*inventory, Cart *cart, int itemID, float quantity)
 {
     CartItem *current = cart->head;
     InventoryItem *temp = inventory->head;
@@ -125,13 +133,17 @@ int updateCartItemQuantity(Inventory*inventory, Cart *cart, int itemID, int quan
         printf("Item not found with the given item Id.\n");
         return Failure;
     }
-    current->quantity =quantity;
 
     while(temp->itemID != current->itemID)
     {
         temp = temp->next;
     }
-    cart->totalAmount = ( temp->price * quantity );
+
+    cart->totalAmount = cart->totalAmount - current->quantity *temp->price;
+
+    current->quantity = quantity;
+
+    cart->totalAmount =cart->totalAmount + ( temp->price * current->quantity );
     printf("Amount = %.2f\n",cart->totalAmount);
 
     return Success;
@@ -156,4 +168,3 @@ void viewCartSummary(const Cart *cart)
     }
 
 }
-

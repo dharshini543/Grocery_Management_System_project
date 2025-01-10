@@ -14,7 +14,7 @@
 
 FILE *inventoryFile = NULL;
 
-int openFilesForReadingWriting()
+void openInventoryFile()
 {
     inventoryFile = fopen("GroceryInventoryFile.txt", "r+");
     if (!inventoryFile)
@@ -22,14 +22,13 @@ int openFilesForReadingWriting()
         inventoryFile = fopen("GroceryInventoryFile.txt", "w+");
         if (!inventoryFile)
         {
-            return 0;
+            return;
         }
     }
-    return 1;
+    return;
 }
 
-
-void closeFile()
+void closeInventoryFile()
 {
     if (inventoryFile != NULL)
     {
@@ -138,11 +137,6 @@ void loadInventoryFromFile(Inventory *inventory)
     else
     {
         printf("No valid items found in inventory file.\n");
-    }
-
-    if (deletedItemCount == 0)
-    {
-        printf("No deleted items.\n");
     }
 }
 

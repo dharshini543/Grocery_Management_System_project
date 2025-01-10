@@ -8,7 +8,7 @@
 
 FILE *salesReportFile = NULL;
 
-int openSalesReportFile()
+void openSalesReportFile()
 {
     salesReportFile = fopen("SalesReportFile.txt", "r+");
     if (!salesReportFile)
@@ -16,10 +16,10 @@ int openSalesReportFile()
         salesReportFile = fopen("SalesReportFile.txt", "w+");
         if (!salesReportFile)
         {
-            return 0;
+            return;
         }
     }
-    return 1;
+    return;
 }
 
 void closeSalesReportFile()

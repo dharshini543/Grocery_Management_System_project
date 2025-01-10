@@ -17,7 +17,7 @@ typedef struct Cart
 
 int addItemToCart(Cart *cart, Inventory *inventory, int itemID, float quantity);
 int removeItemFromCart(Inventory *inventory, Cart *cart, int itemID);
-int updateCartItemQuantity(Inventory *inventory, Cart *cart, int itemID, int quantity);
+int updateCartItemQuantity(Inventory*inventory, Cart *cart, int itemID, float quantity);
 void viewCartSummary(const Cart *cart);
 
 #endif // CART_H

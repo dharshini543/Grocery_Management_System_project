@@ -3,8 +3,8 @@
 
 #include "inventory.h"
 
-int openFilesForReadingWriting();
-void closeFile();
+void openInventoryFile();
+void closeInventoryFile();
 void loadInventoryFromFile(Inventory *inventory);
 void saveInventoryToFile(Inventory *inventory);
 void addInventoryItemToFile(Inventory *inventory, InventoryItem newItem);

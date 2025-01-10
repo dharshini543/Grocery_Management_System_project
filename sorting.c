@@ -85,6 +85,7 @@ int sortInventorybyName(Inventory *inventory)
     if (inventory->head == NULL)
         return Failure;
     inventory->head = mergeSort(inventory->head, Sort_By_Name);
+    displayInventorySummary(inventory);
     return Success;
 }
 
@@ -93,6 +94,7 @@ int sortInventorybyDepartment(Inventory *inventory)
     if (inventory->head == NULL)
         return Failure;
     inventory->head = mergeSort(inventory->head, Sort_By_Department);
+    displayInventorySummary(inventory);
     return Success;
 }
 
@@ -101,6 +103,7 @@ int sortInventorybyItemID(Inventory *inventory)
     if (inventory->head == NULL)
         return Failure;
     inventory->head = mergeSort(inventory->head, Sort_By_ItemID);
+    displayInventorySummary(inventory);
     return Success;
 }
 
@@ -109,5 +112,6 @@ int sortInventorybyPrice(Inventory *inventory)
     if (inventory->head == NULL)
         return Failure;
     inventory->head = mergeSort(inventory->head, Sort_By_Price);
+    displayInventorySummary(inventory);
     return Success;
 }
