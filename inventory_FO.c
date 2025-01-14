@@ -30,7 +30,7 @@ int openInventoryFile()
 }
 
 
-void closeFile()
+void closeInventoryFile()
 {
     if (inventoryFile != NULL)
     {
@@ -179,10 +179,11 @@ void updateInventoryItemField(Inventory *inventory, int itemID, int field, void 
     char buffer[RECORD_SIZE + 1];
     InventoryItem temp;
     long currentPos = 0;
-
+    printf("%d\n",temp.itemID);
     while (fgets(buffer, RECORD_SIZE + 1, inventoryFile) != NULL)
     {
         deserializeRecord(buffer, &temp);
+        printf("%d %s %s %s %s %f %f",temp.itemID,temp.name,temp.brand,temp.department,temp.expiryDate,temp.price,temp.quantity);
 
         if (temp.itemID == itemID)
         {

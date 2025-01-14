@@ -4,7 +4,7 @@
 #include "inventory.h"
 
 int  openInventoryFile();
-void closeFile();
+void closeInventoryFile();
 void loadInventoryFromFile(Inventory *inventory);
 void saveInventoryToFile(Inventory *inventory);
 void addInventoryItemToFile(Inventory *inventory, InventoryItem newItem);

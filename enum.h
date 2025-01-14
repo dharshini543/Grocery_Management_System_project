@@ -1,15 +1,22 @@
+
 #ifndef ENUM_H
 #define ENUM_H
 
-enum MainMenuOptions
+enum ADMIN_MENU
 {
-    INVENTORY_MANAGEMENT = 1,
-    CART_MANAGEMENT,
-    BILLING,
-    REPORT,
-    SAVE_TO_FILE,
-    LOGOUT
+    ADMIN_ADD_USER = 1,
+    ADMIN_DELETE_USER,
+    ADMIN_INVENTORY_MANAGEMENT,
+    ADMIN_REPORTS,
+    ADMIN_LOGOUT
+};
 
+enum USER_MENU
+{
+    USER_VIEW_INVENTORY = 1,
+    USER_CART_MANAGEMENT,
+    USER_BILLING,
+    USER_LOGOUT
 };
 
 enum InventoryMenuOptions
@@ -24,7 +31,7 @@ enum InventoryMenuOptions
     Inventory_SortByItemID,
     Inventory_GetItemByID,
     Inventory_DisplayDeletedItems
-} ;
+};
 
 enum mergeSort
 {
@@ -34,6 +41,7 @@ enum mergeSort
     Sort_By_Price
 
 };
+
 enum field
 {
     Name = 1,
