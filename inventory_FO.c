@@ -4,6 +4,7 @@
 #include <time.h>
 #include "inventory.h"
 #include "enum.h"
+#include "sorting.h"
 
 #define MAX_NAME_LENGTH 50
 #define MAX_BRAND_LENGTH 50
@@ -14,7 +15,7 @@
 
 FILE *inventoryFile = NULL;
 
-void openInventoryFile()
+int openInventoryFile()
 {
     inventoryFile = fopen("GroceryInventoryFile.txt", "r+");
     if (!inventoryFile)
@@ -22,13 +23,14 @@ void openInventoryFile()
         inventoryFile = fopen("GroceryInventoryFile.txt", "w+");
         if (!inventoryFile)
         {
-            return;
+            return 0;
         }
     }
-    return;
+    return 1;
 }
 
-void closeInventoryFile()
+
+void closeFile()
 {
     if (inventoryFile != NULL)
     {
@@ -128,6 +130,7 @@ void loadInventoryFromFile(Inventory *inventory)
         }
 
         inventory->itemCount++;
+        inventory->head = mergeSort(inventory->head, Sort_By_Name);
     }
 
     if (inventory->itemCount > 0)
@@ -138,6 +141,7 @@ void loadInventoryFromFile(Inventory *inventory)
     {
         printf("No valid items found in inventory file.\n");
     }
+
 }
 
 void saveInventoryToFile(Inventory *inventory)
@@ -179,7 +183,6 @@ void updateInventoryItemField(Inventory *inventory, int itemID, int field, void 
     while (fgets(buffer, RECORD_SIZE + 1, inventoryFile) != NULL)
     {
         deserializeRecord(buffer, &temp);
-        printf("%d\n",temp.itemID);
 
         if (temp.itemID == itemID)
         {
