@@ -72,7 +72,7 @@ void generateReceipt(Cart *cart,Inventory *inventory, float DiscountAmount, Repo
                 FinalAmount = FinalAmount + Item->price * current->quantity;
 
                 updateInventoryQuantity(temp, current);
-                updateInventoryItemField(inventory,Item->itemID,Quantity, &temp->quantity,Item);
+                updateInventoryItemField(inventory,temp->itemID,Quantity, &temp->quantity,Item);
             }
             current = current->next;
         }
