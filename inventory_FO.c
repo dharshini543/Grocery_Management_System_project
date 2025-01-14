@@ -179,6 +179,7 @@ void updateInventoryItemField(Inventory *inventory, int itemID, int field, void 
     while (fgets(buffer, RECORD_SIZE + 1, inventoryFile) != NULL)
     {
         deserializeRecord(buffer, &temp);
+        printf("%d\n",temp.itemID);
 
         if (temp.itemID == itemID)
         {

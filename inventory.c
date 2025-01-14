@@ -101,7 +101,7 @@ int deleteItemFromInventory(Inventory *inventory, int itemID)
             prev->next = current->next;
             printf("%d\t%s\t\t%s\t\t%.2f\t\t%f\t\t%s\t\t%s\n", current->itemID, current->name, current->brand, current->price, current->quantity, current->department, current->expiryDate);
             free(current);
-            inventory->itemCount--;
+            //inventory->itemCount--;
             deleteInventoryItem(inventory, itemID);
             return Success;
         }
