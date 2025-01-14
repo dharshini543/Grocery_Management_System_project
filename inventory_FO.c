@@ -15,7 +15,7 @@
 
 FILE *inventoryFile = NULL;
 
-int openInventoryFile()
+void openInventoryFile()
 {
     inventoryFile = fopen("GroceryInventoryFile.txt", "r+");
     if (!inventoryFile)
@@ -23,10 +23,10 @@ int openInventoryFile()
         inventoryFile = fopen("GroceryInventoryFile.txt", "w+");
         if (!inventoryFile)
         {
-            return 0;
+            return;
         }
     }
-    return 1;
+    return;
 }
 
 
@@ -38,6 +38,7 @@ void closeInventoryFile()
         fclose(inventoryFile);
     }
 }
+
 
 void padOrTrimString(char *dest, const char *src, size_t length)
 {
@@ -52,7 +53,9 @@ void padOrTrimString(char *dest, const char *src, size_t length)
     dest[srcLen] = '\0';
 }
 
-void serializeRecord(const InventoryItem *item, char *buffer) {
+
+void serializeRecord(const InventoryItem *item, char *buffer)
+{
     char temp[RECORD_SIZE + 1];
 
     snprintf(temp, RECORD_SIZE + 1,
@@ -141,8 +144,8 @@ void loadInventoryFromFile(Inventory *inventory)
     {
         printf("No valid items found in inventory file.\n");
     }
-
 }
+
 
 void saveInventoryToFile(Inventory *inventory)
 {
@@ -173,17 +176,17 @@ void addInventoryItemToFile(Inventory *inventory, InventoryItem newItem)
     printf("Item added successfully.\n");
 }
 
+
 void updateInventoryItemField(Inventory *inventory, int itemID, int field, void *newValue)
 {
     fseek(inventoryFile, 0, SEEK_SET);
     char buffer[RECORD_SIZE + 1];
     InventoryItem temp;
     long currentPos = 0;
-    printf("%d\n",temp.itemID);
+
     while (fgets(buffer, RECORD_SIZE + 1, inventoryFile) != NULL)
     {
         deserializeRecord(buffer, &temp);
-        printf("%d %s %s %s %s %f %f",temp.itemID,temp.name,temp.brand,temp.department,temp.expiryDate,temp.price,temp.quantity);
 
         if (temp.itemID == itemID)
         {
@@ -213,9 +216,8 @@ void updateInventoryItemField(Inventory *inventory, int itemID, int field, void 
                 return;
             }
 
-            // Move the file pointer to the starting position of the record
-            fseek(inventoryFile, currentPos, SEEK_SET); // Go back to the start of the current record
-            fseek(inventoryFile, fieldOffset, SEEK_CUR);  // Move to the specific field
+            fseek(inventoryFile, currentPos, SEEK_SET);
+            fseek(inventoryFile, fieldOffset, SEEK_CUR);
 
             char fieldBuffer[50] = {0};
             switch (field)
@@ -245,16 +247,12 @@ void updateInventoryItemField(Inventory *inventory, int itemID, int field, void 
             }
 
             fflush(inventoryFile);
-            printf("Field updated successfully.\n");
             return;
         }
 
         currentPos = ftell(inventoryFile);
     }
-
-    printf("Item with ID %d not found.\n", itemID);
 }
-
 
 void deleteInventoryItem(Inventory *inventory, int itemID)
 {
@@ -265,16 +263,13 @@ void deleteInventoryItem(Inventory *inventory, int itemID)
     while (fgets(buffer, RECORD_SIZE + 1, inventoryFile) != NULL)
     {
         deserializeRecord(buffer, &temp);
+
         if (temp.itemID == itemID)
         {
             temp.itemID = -1;
 
-
-            long itemIDOffset = ftell(inventoryFile) - RECORD_SIZE + 0;
-
-
+            long itemIDOffset = ftell(inventoryFile) - RECORD_SIZE;
             fseek(inventoryFile, itemIDOffset, SEEK_SET);
-
 
             fprintf(inventoryFile, "%d", temp.itemID);
             fflush(inventoryFile);
@@ -283,8 +278,11 @@ void deleteInventoryItem(Inventory *inventory, int itemID)
             return;
         }
     }
+
     printf("Item with ID %d not found.\n", itemID);
 }
+
+
 
 
 

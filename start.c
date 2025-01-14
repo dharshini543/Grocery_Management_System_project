@@ -48,9 +48,8 @@ int start()
         printf("Press 1 to login. Any other number to Exit\n");
         if (scanf("%d", &proceedToLogin) != 1)
         {
-            // Clear invalid input
             printf("Invalid input. Please enter a valid number.\n");
-            while (getchar() != '\n'); // Clear the buffer
+            while (getchar() != '\n');
             continue;
         }
         printf("\n\n");
@@ -96,10 +95,12 @@ int start()
                     printf("Enter role (1. Admin, 2. User): ");
                     int roleChoice;
                     scanf("%d", &roleChoice);
+
                     addUser(&userlist, newUsername, newPassword, (roleChoice == 1) ? ROLE_ADMIN : ROLE_USER);
                     break;
 
                 case  ADMIN_DELETE_USER:
+
                     printf("Enter username to delete: ");
                     char deleteUsername[MAX_USERNAME_LENGTH];
                     scanf("%s", deleteUsername);
@@ -107,6 +108,7 @@ int start()
                     break;
 
                 case  ADMIN_INVENTORY_MANAGEMENT:
+
                     printf("Enter\n1.Add Item to Inventory\n2.Delete Item from Inventory\n3.Update Inventory Item Details\n4.Display Inventory summary\n5.Sort Inventory By Name\n6.Sort Inventory By Department\n7.Sort Inventory By Price\n8.Sort Inventory By ID\n9.Get list by ID\n10.Display Deleted Items\n");
                     scanf("%d", &option);
 
@@ -204,8 +206,8 @@ int start()
                             printf("Failed to sort inventory by Price.\n");
                         }
                         break;
-                    case Inventory_GetItemByID:
 
+                    case Inventory_GetItemByID:
                         printf("Enter ID of an item\n");
                         scanf("%d", &ID);
                         success = getInventoryItemByID(&inventory, ID);
@@ -218,6 +220,7 @@ int start()
                             printf("Failed to get item\n");
                         }
                         break;
+
                     case Inventory_DisplayDeletedItems:
                         displayDeletedItems(&inventory);
                         break;
@@ -228,13 +231,14 @@ int start()
                     break;
 
                 case  ADMIN_REPORTS:
+
                     printf("Enter\n1.Generate Sales Report\n2.Generate Inventory Report\n3.View Low Stock alerts\n");
                     scanf("%d", &option);
 
                     switch(option)
                     {
                     case Generate_SalesReport:
-                        generateSalesReport(&cart, &inventory,&report);
+                        generateSalesReport(&cart, &inventory,&report,1);
                         cart.head = 0;
                         break;
 
@@ -253,9 +257,8 @@ int start()
                     break;
 
                 case  ADMIN_LOGOUT:
+
                     closeUserFile();
-                    closeSalesReportFile();
-                    closeInventoryFile();
                     currentUser->isLoggedIn = 0;
                     currentUser = NULL;
                     printf("Admin Logging out....\n\n\n");
@@ -279,10 +282,12 @@ int start()
                 switch (choice)
                 {
                 case  USER_VIEW_INVENTORY:
+
                     displayInventorySummary(&inventory);
                     break;
 
                 case  USER_CART_MANAGEMENT:
+
                     printf("Enter\n1.Add Item to Cart\n2.Delete Item from Cart\n3.Update Cart item quantity\n4.Display Cart Summary\n");
                     scanf("%d", &option);
 
@@ -345,6 +350,7 @@ int start()
                     break;
 
                 case  USER_BILLING:
+
                     if(cart.head == 0)
                     {
                         printf("No Items in cart,Please add...\n");
@@ -364,6 +370,7 @@ int start()
 
                         case Billing_GenerateReceipt:
                             generateReceipt(&cart, &inventory,DiscountAmount,&report);
+                            generateSalesReport(&cart, &inventory,&report, 0);
                             cart.head = 0;
                             break;
 
@@ -375,6 +382,7 @@ int start()
                     break;
 
                 case USER_LOGOUT:
+
                     currentUser->isLoggedIn = 0;
                     currentUser = NULL;
                     printf("User Logging out....\n\n\n");
@@ -394,6 +402,8 @@ int start()
         }
     }
     saveUsersToFile(&userlist);
+    closeSalesReportFile();
+    closeInventoryFile();
 
     return 0;
 }

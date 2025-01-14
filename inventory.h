@@ -28,7 +28,7 @@ int sortInventorybyDepartment(Inventory *inventory);
 int sortInventorybyPrice(Inventory *inventory);
 int sortInventorybyItemID(Inventory *inventory);
 int getInventoryItemByID(Inventory*inventory, int itemID);
-void displayDeletedItems(Inventory*inventory);
+void displayDeletedItems(const Inventory*inventory);
 
 #endif // INVENTORY_H
 

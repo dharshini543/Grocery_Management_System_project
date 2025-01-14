@@ -39,6 +39,7 @@ int addItemToCart(Cart *cart, Inventory *inventory, int itemID, float quantity)
     newitem->itemID = itemID;
     newitem->quantity = quantity;
     newitem->next = 0;
+
     if(cart->head == 0)
     {
         cart->head = newitem;

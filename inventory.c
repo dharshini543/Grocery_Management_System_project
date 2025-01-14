@@ -101,7 +101,6 @@ int deleteItemFromInventory(Inventory *inventory, int itemID)
             prev->next = current->next;
             printf("%d\t%s\t\t%s\t\t%.2f\t\t%f\t\t%s\t\t%s\n", current->itemID, current->name, current->brand, current->price, current->quantity, current->department, current->expiryDate);
             free(current);
-            inventory->itemCount--;
             deleteInventoryItem(inventory, itemID);
             return Success;
         }
@@ -196,20 +195,30 @@ void displayInventorySummary(const Inventory *inventory)
     {
         InventoryItem* temp = inventory->head;
         printf("Inventory Summary:\n");
-        printf("ID\tName\t\tBrand\t\tDepartment\t\tExpiryDate\tPrice\tQuantity\n");
+        printf("------------------------------------------------------------------------------------------------------------------\n");
+        printf("ID\tName\t\t\tBrand\t\t\tDepartment\t\tExpiry Date\tPrice\tQuantity\n");
+        printf("------------------------------------------------------------------------------------------------------------------\n");
         while(temp != 0)
         {
-            if(temp->itemID > 0 )
+            if(temp->itemID > 0)
             {
-                printf("%d\t%s\t\t%s\t\t%s\t\t\t%s\t%.2f\t%.2f\n", temp->itemID, temp->name, temp->brand, temp->department, temp->expiryDate,temp->price, temp->quantity);
-
+                printf("%d\t%-20s\t%-20s\t%-20s\t%-15s\t%.2f\t%.2f\n",
+                       temp->itemID,
+                       temp->name,
+                       temp->brand,
+                       temp->department,
+                       temp->expiryDate,
+                       temp->price,
+                       temp->quantity);
             }
             temp = temp->next;
         }
     }
 }
 
-void displayDeletedItems(Inventory *inventory)
+
+
+void displayDeletedItems(const Inventory *inventory)
 {
     int deletedItemCount = 0;
     InventoryItem *temp = inventory->head;
@@ -238,7 +247,7 @@ void displayDeletedItems(Inventory *inventory)
     }
 }
 
-int getInventoryItemByID(Inventory*inventory,int itemID)
+int getInventoryItemByID(Inventory*inventory, int itemID)
 {
     InventoryItem *temp = inventory->head;
     if(!temp)

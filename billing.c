@@ -34,6 +34,7 @@ int calculateFinalBill(Cart *cart, Inventory *inventory, float * totalsales)
     }
 }
 
+
 int applyDiscount(float *total, float discountRate)
 {
     float DiscountAmount = 0;
@@ -44,13 +45,14 @@ int applyDiscount(float *total, float discountRate)
     return DiscountAmount;
 }
 
-void generateReceipt(Cart *cart,Inventory *inventory, float DiscountAmount, Report *report)
+
+void generateReceipt(Cart *cart, Inventory *inventory, float DiscountAmount, Report *report)
 {
     CartItem *current = cart->head;
     int count = 0;
     float FinalAmount = 0;
 
-    if(current == 0)
+    if (current == NULL)
     {
         printf("Cart is empty\n");
     }
@@ -58,38 +60,46 @@ void generateReceipt(Cart *cart,Inventory *inventory, float DiscountAmount, Repo
     {
         printf("-------------------------Receipt---------------------------\n");
         printf("Item_No\tName\t\tPrice\t\tQuantity\tAmount\n");
-        while(current != 0)
+
+        while (current != NULL)
         {
             InventoryItem *temp = inventory->head;
-            while(temp != NULL && temp->itemID != current->itemID)
+            while (temp != NULL && temp->itemID != current->itemID)
             {
                 temp = temp->next;
             }
-            InventoryItem *Item = temp;
-            if(Item != NULL )
+
+            if (temp != NULL)
             {
-                printf("%d\t%s\t\t%.2f\t\t%.2f\t\t%.2f\n",++count, Item->name, Item->price, current->quantity, Item->price*current->quantity);
-                FinalAmount = FinalAmount + Item->price * current->quantity;
+                float itemAmount = temp->price * current->quantity;
+                printf("%d\t%s\t\t%.2f\t\t%.2f\t\t%.2f\n", ++count, temp->name, temp->price, current->quantity, itemAmount);
+
+                FinalAmount += itemAmount;
 
                 updateInventoryQuantity(temp, current);
-                updateInventoryItemField(inventory,temp->itemID,Quantity, &temp->quantity,Item);
+                updateInventoryItemField(inventory, temp->itemID, Quantity, &temp->quantity, temp);
+            }
+            else
+            {
+                printf("Item with ID %d not found in inventory.\n", current->itemID);
             }
             current = current->next;
         }
         addSalesReportItem(cart, inventory, report);
+
         printf("-----------------------------------------------------------\n");
         printf("  \t\t\t\t\tTotal amount :%.2f\n", FinalAmount);
         printf("  \t\t\t\t\tDiscount :%.2f\n", DiscountAmount);
         printf("   \t\t\t\t\tPayableAmount :%.2f\n", FinalAmount - DiscountAmount);
+        printf("-----------------------------------------------------------\n");
 
-        free(current);
         cart->totalAmount = 0;
-        cart->head = 0;
+        cart->head = NULL;
     }
-
 }
 
-void updateInventoryQuantity(InventoryItem *temp,CartItem *current)
+
+void updateInventoryQuantity(InventoryItem *temp, CartItem *current)
 {
     temp->quantity = temp->quantity - current->quantity;
 }

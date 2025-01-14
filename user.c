@@ -60,11 +60,13 @@ User* loginUser(Userlist *userlist)
     return NULL;
 }
 
+
 void logoutUser(User *user)
 {
     user->isLoggedIn = 0;
     printf("Logout successful.\n");
 }
+
 
 int addUser(Userlist *userlist, const char *username, const char *password, UserRole role)
 {
@@ -82,6 +84,7 @@ int addUser(Userlist *userlist, const char *username, const char *password, User
     }
     printUsers(userlist);
 }
+
 
 void deleteUser(Userlist *userlist, const char *username)
 {
@@ -102,6 +105,7 @@ void deleteUser(Userlist *userlist, const char *username)
     printUsers(userlist);
 }
 
+
 void printUsers(Userlist *userlist)
 {
     return;
@@ -111,9 +115,10 @@ void printUsers(Userlist *userlist)
     }
 }
 
+
 void saveUsersToFile(Userlist *userlist)
 {
-    FILE *file = fopen("Users.txt", "w"); // Open the file in write mode
+    FILE *file = fopen("Users.txt", "w");
     if (file != NULL)
     {
         for (int i = 0; i < userlist->userCount; i++)
@@ -121,7 +126,6 @@ void saveUsersToFile(Userlist *userlist)
             fprintf(file, "%s\n", userlist->users[i].username);
             fprintf(file, "%s\n", userlist->users[i].password);
             fprintf(file, "%d\n", userlist->users[i].role);
-            // fprintf(file, "%d\n", userlist->users[i].isLoggedIn);
         }
         fclose(file);
     }
@@ -132,8 +136,9 @@ void saveUsersToFile(Userlist *userlist)
     printUsers(userlist);
 }
 
-void loadUsersFromFile(Userlist *userlist) {
-    FILE *file = fopen("users.txt", "r"); // Assuming the file is named "users.txt"
+void loadUsersFromFile(Userlist *userlist)
+{
+    FILE *file = fopen("users.txt", "r");
     if (file == NULL) {
         perror("Error opening file");
         return;
@@ -144,10 +149,11 @@ void loadUsersFromFile(Userlist *userlist) {
     while (fscanf(file, " %29s %29s %d %d",
                   userlist->users[userlist->userCount].username,
                   userlist->users[userlist->userCount].password,
-                  // &userlist->users[userlist->userCount].isLoggedIn,
-                  (int *)&userlist->users[userlist->userCount].role) == 3) {
+                  (int *)&userlist->users[userlist->userCount].role) == 3)
+    {
         userlist->userCount++;
-        if (userlist->userCount >= MAX_USERS) {
+        if (userlist->userCount >= MAX_USERS)
+        {
             fprintf(stderr, "Maximum user limit reached, some users may not be loaded.\n");
             break;
         }
@@ -157,8 +163,10 @@ void loadUsersFromFile(Userlist *userlist) {
     printUsers(userlist);
 }
 
-void addFirstAdminUser(Userlist *userlist) {
-    if (userlist->userCount == 0) {
+void addFirstAdminUser(Userlist *userlist)
+{
+    if (userlist->userCount == 0)
+    {
         printf("Please create the first admin user:\n");
         printf("\t Enter username: ");
         scanf(" %29s", userlist->users[0].username);
@@ -171,45 +179,3 @@ void addFirstAdminUser(Userlist *userlist) {
     }
 }
 
-// void loadUsersFromFile(Userlist *userlist)
-// {
-//     FILE *file = fopen("Users.txt", "r");
-
-//     if (file != NULL)
-//     {
-//         // Check if the file is empty
-//         int ch = fgetc(file);
-//         if (ch == EOF) {
-//             userlist->userCount = 0;
-//             fclose(file);
-//             return; // File is empty
-//         }
-//         userlist->userCount = 0;
-//         while (!feof(file))
-//         {
-//             if (userlist->userCount >= MAX_USERS)
-//                 break;
-
-//             User *user = &userlist->users[userlist->userCount];
-
-//             fgets(user->username, MAX_USERNAME_LENGTH, file);
-//             user->username[strcspn(user->username, "\n")] = '\0';
-
-//             fgets(user->password, MAX_PASSWORD_LENGTH, file);
-//             user->password[strcspn(user->password, "\n")] = '\0';
-
-//             fscanf(file, "%d", &user->role);
-//             fscanf(file, "%d", &user->isLoggedIn);
-
-//             fgetc(file);
-
-//             userlist->userCount++;
-//         }
-//         fclose(file);
-//         printf("Users loaded from file.\n");
-//     }
-//     else
-//     {
-//         printf("Error loading users from file.\n");
-//     }
-// }

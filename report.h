@@ -18,7 +18,7 @@ typedef struct Report
 
 
 void addSalesReportItem(Cart *cart, Inventory *inventory, Report * report);
-void generateSalesReport(Cart *cart, Inventory *inventory,const Report *report);
+void generateSalesReport(Cart *cart, Inventory *inventory, Report *report, int isPrint);
 void generateInventoryReport(const Inventory *inventory);
 void viewLowStockAlerts(const Inventory *inventory);
 int isItemIdAlreadyPresentInSalesReport(Report *report, int ItemID);

@@ -22,6 +22,7 @@ int openSalesReportFile()
     return 1;
 }
 
+
 void closeSalesReportFile()
 {
     if (salesReportFile != NULL) {
@@ -29,6 +30,7 @@ void closeSalesReportFile()
         fclose(salesReportFile);
     }
 }
+
 
 void serializeSalesRecord(const ReportItem *reportItem, const char *name, float price, char *buffer)
 {
@@ -39,12 +41,14 @@ void serializeSalesRecord(const ReportItem *reportItem, const char *name, float 
              reportItem->itemID, name, price, reportItem->quantity, amount);
 }
 
+
 void deserializeSalesRecord(const char *buffer, int *itemID, char *name, float *price, float *quantity)
 {
     float totalValue = 0;
 
     int itemsParsed = sscanf(buffer, "%d %49s %f %f %f", itemID, name, price, quantity, &totalValue);
 }
+
 
 void loadSalesReportFromFile(Report *report)
 {
@@ -139,7 +143,6 @@ void updateSalesReportInFile(Report *report, int itemID, float quantity, const c
         fprintf(salesReportFile, "%-10d%-50s%-10.2f%-10.2f%-10.2f\n", newItem.itemID, name, price, newItem.quantity, newItem.quantity * price);
         fflush(salesReportFile);
 
-        //printf("New sales record added for Item ID %d.\n", itemID);
     }
 }
 
