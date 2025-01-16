@@ -144,22 +144,6 @@ void loadInventoryFromFile(Inventory *inventory)
 
 }
 
-void saveInventoryToFile(Inventory *inventory)
-{
-    fseek(inventoryFile, 0, SEEK_SET);
-
-    InventoryItem *temp = inventory->head;
-    char buffer[RECORD_SIZE + 1];
-    while (temp != NULL)
-    {
-        serializeRecord(temp, buffer);
-        fprintf(inventoryFile, "%s", buffer);
-        temp = temp->next;
-    }
-    fflush(inventoryFile);
-    printf("Inventory saved successfully.\n");
-}
-
 
 void addInventoryItemToFile(Inventory *inventory, InventoryItem newItem)
 {

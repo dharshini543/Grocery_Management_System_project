@@ -19,25 +19,8 @@ int start()
     int isTrue = 1;
     int isOpened = 0;
 
-    isOpened = openInventoryFile();
-    if(isOpened)
-    {
-        printf("Inventory File is Open\n");
-    }
-    else
-    {
-        printf("Failed to open Inventory File\n");
-    }
-
-    isOpened = openSalesReportFile();
-    if(isOpened)
-    {
-        printf("Sales_Report File is Open\n");
-    }
-    else
-    {
-        printf("Failed to open Sales_Report File\n");
-    }
+    openInventoryFile();
+    openSalesReportFile();
 
     loadInventoryFromFile(&inventory);
     loadSalesReportFromFile(&report);
